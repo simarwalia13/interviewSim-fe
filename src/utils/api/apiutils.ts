@@ -7,7 +7,7 @@ Axios.defaults.withCredentials = true;
 // Interfaces
 
 export const hostname = () => {
-  const hostUrl = '/';
+  const hostUrl = 'http://localhost:8000';
   return hostUrl;
 };
 
@@ -44,7 +44,7 @@ export const makeUrl = (
     version: string;
     headerProps?: AxiosRequestHeaders;
   },
-  host: string | undefined,
+  host: string | undefined
 ): string => {
   const params = new URLSearchParams();
   for (const key in query) {
@@ -55,7 +55,7 @@ export const makeUrl = (
     .map((param: string) =>
       param.charAt(0) === ':'
         ? encodeURI(pathParams?.[param.slice(1)] || '')
-        : param,
+        : param
     )
     .join('/')}${query ? `?${params.toString()}` : ''}`;
 };
@@ -167,7 +167,7 @@ const callMockios = ({
     withCredentials: true,
     url: makeUrl(
       { ...uriEndPoint, pathParams, query },
-      `${window.location.protocol}//${window.location.hostname}:3030`,
+      `${window.location.protocol}//${window.location.hostname}:3030`
     ),
     headers: {
       ...getDefaultHeaders(),

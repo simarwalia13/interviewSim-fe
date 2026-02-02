@@ -134,3 +134,8 @@ export interface profile {
   interest: string;
   bio: string;
 }
+
+export interface CreateGuestResponse {
+  uuid: string;
+  token: string;
+}

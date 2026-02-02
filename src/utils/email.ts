@@ -16,7 +16,7 @@ export const sendEmail = (
   recipients: any[],
   subject: any,
   template: any,
-  ccRecipients: any[],
+  ccRecipients: any[]
 ) => {
   let destinationEmail: any = [];
   let ccDestinationEmail: any = [];
@@ -26,7 +26,7 @@ export const sendEmail = (
     ccDestinationEmail = ccRecipients;
   } else if (!REDIRECT_EMAIL && NODE_ENV !== 'production') {
     throw new Error(
-      'REDIRECT_EMAIL is not defined for ' + NODE_ENV + ' environment.',
+      'REDIRECT_EMAIL is not defined for ' + NODE_ENV + ' environment.'
     );
   } else {
     destinationEmail = [REDIRECT_EMAIL];
