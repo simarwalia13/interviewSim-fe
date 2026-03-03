@@ -61,11 +61,20 @@ export const makeUrl = (
 };
 
 export const getDefaultHeaders = () => {
-  const headers: any = {};
-  if (localStorage.getItem('authorization')) {
-    headers.Authorization = localStorage.getItem('authorization');
-    headers['Content-Type'] = 'application/json';
+  const headers: any = {
+    'Content-Type': 'application/json',
+  };
+
+  // Token is stored in a cookie set by the backend (e.g. "accessToken").
+  // Axios (withCredentials: true) will send cookies automatically.
+  // We also mirror it into an Authorization header for APIs that expect it.
+  if (typeof window !== 'undefined') {
+    const token = cookies.get('Authorization');
+    if (token) {
+      headers.Authorization = `Bearer ${token}`;
+    }
   }
+
   return headers;
 };
 export const getDefaultCookies = () => ({
@@ -73,11 +82,6 @@ export const getDefaultCookies = () => ({
   'Content-Type': 'application/json',
 });
 
-export const currencyFormatter = new Intl.NumberFormat('en-US', {
-  style: 'currency',
-  currency: 'USD',
-  minimumFractionDigits: 2,
-});
 // const clearLocalStroage = () => {
 //   window.localStorage.clear();
 // };

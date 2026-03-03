@@ -2,10 +2,10 @@ import type { Config } from 'tailwindcss';
 import defaultTheme from 'tailwindcss/defaultTheme';
 
 export default {
+  darkMode: ['class'],
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
   theme: {
     screens: {
-      // Portrait
       xxxs: '290px',
       xxs: '375px',
       xs: '480px',
@@ -16,7 +16,6 @@ export default {
       '2xl': '1436px',
       '3xl': '1636px',
       '4xl': '1750px',
-      // Landscape
       'landscape-xxxs': {
         raw: '(min-width: 290px) and (orientation: landscape)',
       },
@@ -54,21 +53,21 @@ export default {
       },
       colors: {
         primary: {
-          // Customize it on globals.css :root
-          50: 'rgb(var(--tw-color-primary-50) / <alpha-value>)',
-          100: 'rgb(var(--tw-color-primary-100) / <alpha-value>)',
-          200: 'rgb(var(--tw-color-primary-200) / <alpha-value>)',
-          300: 'rgb(var(--tw-color-primary-300) / <alpha-value>)',
-          400: 'rgb(var(--tw-color-primary-400) / <alpha-value>)',
-          500: 'rgb(var(--tw-color-primary-500) / <alpha-value>)',
-          600: 'rgb(var(--tw-color-primary-600) / <alpha-value>)',
-          700: 'rgb(var(--tw-color-primary-700) / <alpha-value>)',
-          800: 'rgb(var(--tw-color-primary-800) / <alpha-value>)',
-          900: 'rgb(var(--tw-color-primary-900) / <alpha-value>)',
-          950: 'rgb(var(--tw-color-primary-950) / <alpha-value>)',
+          '50': 'rgb(var(--tw-color-primary-50) / <alpha-value>)',
+          '100': 'rgb(var(--tw-color-primary-100) / <alpha-value>)',
+          '200': 'rgb(var(--tw-color-primary-200) / <alpha-value>)',
+          '300': 'rgb(var(--tw-color-primary-300) / <alpha-value>)',
+          '400': 'rgb(var(--tw-color-primary-400) / <alpha-value>)',
+          '500': 'rgb(var(--tw-color-primary-500) / <alpha-value>)',
+          '600': 'rgb(var(--tw-color-primary-600) / <alpha-value>)',
+          '700': 'rgb(var(--tw-color-primary-700) / <alpha-value>)',
+          '800': 'rgb(var(--tw-color-primary-800) / <alpha-value>)',
+          '900': 'rgb(var(--tw-color-primary-900) / <alpha-value>)',
+          '950': 'rgb(var(--tw-color-primary-950) / <alpha-value>)',
+          DEFAULT: 'hsl(var(--primary))',
+          foreground: 'hsl(var(--primary-foreground))',
         },
         dark: '#222222',
-        // shadcn/ui
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
@@ -79,8 +78,8 @@ export default {
           foreground: 'hsl(var(--card-foreground))',
         },
         popover: {
-          DEFAULT: 'hsl(var(--background))',
-          foreground: 'hsl(var(--foreground))',
+          DEFAULT: 'hsl(var(--popover))',
+          foreground: 'hsl(var(--popover-foreground))',
         },
         muted: {
           DEFAULT: 'hsl(var(--muted))',
@@ -101,6 +100,13 @@ export default {
         secondary: {
           DEFAULT: 'hsl(var(--secondary))',
           foreground: 'hsl(var(--secondary-foreground))',
+        },
+        chart: {
+          '1': 'hsl(var(--chart-1))',
+          '2': 'hsl(var(--chart-2))',
+          '3': 'hsl(var(--chart-3))',
+          '4': 'hsl(var(--chart-4))',
+          '5': 'hsl(var(--chart-5))',
         },
       },
       borderRadius: {
@@ -136,11 +142,29 @@ export default {
             transform: 'scale(1.1)',
           },
         },
+        'accordion-down': {
+          from: {
+            height: '0',
+          },
+          to: {
+            height: 'var(--radix-accordion-content-height)',
+          },
+        },
+        'accordion-up': {
+          from: {
+            height: 'var(--radix-accordion-content-height)',
+          },
+          to: {
+            height: '0',
+          },
+        },
       },
       animation: {
         flicker: 'flicker 3s linear infinite',
         shimmer: 'shimmer 1.3s linear infinite',
         scale: 'scale 1s ease-out',
+        'accordion-down': 'accordion-down 0.2s ease-out',
+        'accordion-up': 'accordion-up 0.2s ease-out',
       },
     },
   },

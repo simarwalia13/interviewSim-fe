@@ -1,170 +1,82 @@
-import { Loader2 } from 'lucide-react';
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { Search } from 'lucide-react';
+import { useState } from 'react';
 
-import { useCreateGuest, useGuestSession } from '@/hooks/guest';
+import { allCategories } from '@/data/examData';
 
-import Seo from '@/components/Seo';
-import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import { Spinner } from '@/components/ui/spinner';
+import CategorySection from '@/components/CategorySection';
 
-export default function DashboardPage() {
-  const [mounted, setMounted] = useState(false);
-  const { guest, clearGuest, isGuest } = useGuestSession();
-  const createGuest = useCreateGuest();
+const DashboardPage = () => {
+  const [search, setSearch] = useState('');
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const filtered = allCategories
+    .map((cat) => ({
+      ...cat,
+      items: cat.items.filter((item) =>
+        item.toLowerCase().includes(search.toLowerCase())
+      ),
+    }))
+    .filter((cat) => cat.items.length > 0);
 
-  const handleEnterAsGuest = () => {
-    createGuest.mutate(undefined);
-  };
-
-  const handleLeaveGuest = () => {
-    clearGuest();
-    window.location.replace('/');
-  };
-
-  // Same on server and initial client render to avoid hydration mismatch
-  if (!mounted) {
-    return (
-      <>
-        <Seo templateTitle='Dashboard' />
-        <main className='flex min-h-screen items-center justify-center'>
-          <Spinner
-            className='text-primary-600 text-3xl font-bold'
-            tip='Loading...'
-          />
-        </main>
-      </>
-    );
-  }
-
-  // After mount: no stored guest and not loading → show enter as guest
-  if (guest === null && !createGuest.isLoading) {
-    const hasStored =
-      typeof localStorage !== 'undefined' &&
-      localStorage.getItem('interviewSim_guest');
-    if (!hasStored) {
-      return (
-        <>
-          <Seo templateTitle='Dashboard' />
-          <main className='flex min-h-screen flex-col items-center justify-center p-8'>
-            <Card className='w-full max-w-md'>
-              <CardHeader>
-                <CardTitle className='text-xl'>
-                  Interview Sim – Dashboard
-                </CardTitle>
-                <CardDescription className='mb-4 mt-2 block'>
-                  Enter as a guest to use the dashboard. A random UUID and token
-                  will be generated for your session.
-                </CardDescription>
-              </CardHeader>
-              <CardContent className='space-y-4'>
-                <Button
-                  size='lg'
-                  className='w-full'
-                  disabled={createGuest.isLoading}
-                  onClick={handleEnterAsGuest}
-                >
-                  {createGuest.isLoading ? (
-                    <>
-                      <Loader2 className='h-4 w-4 animate-spin' />
-                      Entering…
-                    </>
-                  ) : (
-                    'Enter as guest'
-                  )}
-                </Button>
-                <Link href='/'>
-                  <Button variant='link' className='w-full'>
-                    Back to home
-                  </Button>
-                </Link>
-              </CardContent>
-            </Card>
-          </main>
-        </>
-      );
-    }
-  }
-
-  // Hydrating from storage or creating guest
-  if (!isGuest && !createGuest.isSuccess) {
-    return (
-      <>
-        <Seo templateTitle='Dashboard' />
-        <main className='flex min-h-screen items-center justify-center'>
-          <Spinner tip='Loading...' />
-        </main>
-      </>
-    );
-  }
-
-  // Dashboard with guest session
   return (
-    <>
-      <Seo templateTitle='Dashboard' />
-      <main className='min-h-screen p-6 md:p-8'>
-        <div className='mx-auto max-w-4xl'>
-          <div className='mb-6 flex flex-wrap items-center justify-between gap-4'>
-            <h1 className='text-2xl font-semibold tracking-tight'>Dashboard</h1>
-            <div className='flex gap-2'>
-              <Link href='/'>
-                <Button variant='outline'>Home</Button>
-              </Link>
-              <Button variant='outline' onClick={handleLeaveGuest}>
-                Leave guest session
-              </Button>
-            </div>
-          </div>
-
-          <Card className='mb-6'>
-            <CardHeader>
-              <CardTitle>Guest session</CardTitle>
-              <CardDescription>
-                You are using the dashboard as a guest. Use this session for API
-                calls.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className='space-y-2 font-mono text-sm'>
-              <p>
-                <strong>UUID:</strong>{' '}
-                <span className='text-primary-600 break-all'>
-                  {guest?.uuid ?? '—'}
-                </span>
-              </p>
-              <p>
-                <strong>Token:</strong>{' '}
-                <span className='text-primary-600 break-all'>
-                  {guest?.token ? `${guest.token.slice(0, 20)}…` : '—'}
-                </span>
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Quick actions</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className='text-muted-foreground'>
-                Your guest token is stored in <code>localStorage</code> and sent
-                as <code>Authorization</code> header on API requests. Add more
-                dashboard content and API calls here.
-              </p>
-            </CardContent>
-          </Card>
+    <div className='bg-background min-h-screen'>
+      {/* Header */}
+      <header className='border-border bg-background/80 sticky top-0 z-10 border-b backdrop-blur-md'>
+        <div className='mx-auto flex max-w-6xl items-center justify-between px-4 py-4'>
+          <h1 className='text-foreground text-xl tracking-tight md:text-2xl'>
+            PrepHub<span className='text-accent'>.</span>
+          </h1>
+          <span className='text-muted-foreground hidden text-xs sm:block'>
+            Your exam & interview preparation companion
+          </span>
         </div>
+      </header>
+
+      <main className='mx-auto max-w-6xl px-4 py-8 md:py-12'>
+        {/* Hero */}
+        <div className='mb-10 md:mb-14'>
+          <h2 className='text-foreground max-w-xl text-3xl leading-tight md:text-5xl'>
+            Find your exam<span className='text-accent'>.</span>
+            <br />
+            Start preparing<span className='text-accent'>.</span>
+          </h2>
+          <p className='text-muted-foreground mt-3 max-w-md text-sm md:text-base'>
+            Browse government, competitive & entrance exams along with job
+            interview topics — all in one place.
+          </p>
+
+          {/* Search */}
+          <div className='relative mt-6 max-w-md'>
+            <Search className='text-muted-foreground absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2' />
+            <input
+              type='text'
+              placeholder='Search exams or fields...'
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className='border-border bg-card text-foreground placeholder:text-muted-foreground focus:ring-primary/30 focus:border-primary/50 w-full rounded-lg border py-2.5 pl-10 pr-4 text-sm transition-all focus:outline-none focus:ring-2'
+            />
+          </div>
+        </div>
+
+        {/* Categories */}
+        {filtered.length > 0 ? (
+          filtered.map((cat) => (
+            <CategorySection key={cat.title} category={cat} />
+          ))
+        ) : (
+          <p className='text-muted-foreground py-20 text-center'>
+            No results found for "{search}"
+          </p>
+        )}
       </main>
-    </>
+
+      {/* Footer */}
+      <footer className='border-border mt-8 border-t'>
+        <div className='text-muted-foreground mx-auto max-w-6xl px-4 py-6 text-center text-xs'>
+          PrepHub — Exam & Interview Preparation Hub
+        </div>
+      </footer>
+    </div>
   );
-}
+};
+
+export default DashboardPage;
