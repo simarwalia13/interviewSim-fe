@@ -1,6 +1,7 @@
 import { AppProps } from 'next/app';
 import { IconContext } from 'react-icons';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { Toaster } from 'sonner';
 
 import '@/styles/globals.css';
 // !STARTERCONF This is for demo purposes, remove @/styles/colors.css import immediately
@@ -16,6 +17,21 @@ function MyApp({ Component, pageProps }: AppProps) {
     <IconContext.Provider value={{ color: 'FFD700', size: '50px' }}>
       <QueryClientProvider client={new QueryClient()}>
         <Component {...pageProps} />
+        <Toaster
+          position='top-center'
+          richColors
+          closeButton
+          expand={true}
+          duration={3000}
+          theme='light'
+          toastOptions={{
+            style: {
+              zIndex: 9999,
+              fontFamily: 'inherit',
+            },
+            className: 'text-sm',
+          }}
+        />
       </QueryClientProvider>
     </IconContext.Provider>
   );

@@ -13,6 +13,12 @@ export const SignUp = ({ body }: any) =>
     body,
   });
 
+export const VerifyEmail = ({ body }: any) =>
+  callApi<any>({
+    uriEndPoint: { ...Auth.verifyEmail.v1 },
+    body,
+  });
+
 export const forgetPassword = ({ body }: any) =>
   callApi<any>({
     uriEndPoint: { ...Auth.forgetPassword.v1 },
@@ -27,6 +33,11 @@ export const Otp = ({ query }: any) =>
 export const meApi = () =>
   callApi<any>({
     uriEndPoint: { ...Auth.meApi.v1 },
+  });
+
+export const logOut = () =>
+  callApi<any>({
+    uriEndPoint: { ...Auth.logOut.v1 },
   });
 
 export const editUser = ({ body, query }: any) =>

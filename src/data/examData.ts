@@ -94,9 +94,12 @@ export const jobFields: ExamCategory = {
   ],
 };
 
+// export const GeneralQuizz = {};
+
 export const allCategories = [
   governmentExams,
   competitiveExams,
   collegeEntrance,
   jobFields,
+  // GeneralQuizz,
 ];

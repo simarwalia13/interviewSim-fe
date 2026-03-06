@@ -20,7 +20,14 @@ export const Auth = {
     v1: {
       ...defaults.methods.POST,
       ...defaults.versions.v1,
-      uri: '/auth/signup',
+      uri: '/users',
+    },
+  },
+  verifyEmail: {
+    v1: {
+      ...defaults.methods.POST,
+      ...defaults.versions.v1,
+      uri: '/users/verify-email',
     },
   },
   otp: {
@@ -34,7 +41,14 @@ export const Auth = {
     v1: {
       ...defaults.methods.GET,
       ...defaults.versions.v1,
-      uri: '/me',
+      uri: '/auth/me',
+    },
+  },
+  logOut: {
+    v1: {
+      ...defaults.methods.POST,
+      ...defaults.versions.v1,
+      uri: '/auth/logout',
     },
   },
   editUser: {
